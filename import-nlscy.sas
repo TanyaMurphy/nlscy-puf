@@ -1,12 +1,16 @@
-x 'cd C:\Users\Tanya';
-%let datapath = ./HardDriveOnly/Data/NLSCYpublic;
+* samsung;
+x 'cd C:\Users\tanya';
+%let datapath = ./HardDriveOnly/Data/nlscypuf;
+/** surface;*/
+/*x 'cd C:\Users\Tanya';*/
+/*%let datapath = ./HardDriveOnly/Data/NLSCYpublic;*/
+
 *libname nlscy "&datapath";
 
 /* Cylcle 1: 1994-95 */
-proc import 
-	datafile = "&datapath./nlscy-89M0015-E-1994-1995-c-1-r-2-primary-file_F1.dta" 
-	dbms = STATA replace
-	out = c11 ;
+proc import out = c11 
+	file = "&datapath./nlscy-89M0015-E-1994-1995-c-1-r-2-primary-file_F1.dta" 
+	dbms = STATA replace;
 run;
 proc contents data = c11;run;
 proc univariate data = c11;var AWTCW01;run;
@@ -20,6 +24,9 @@ run;
 proc univariate data = c12;var AWTCW01;run;
 proc sort data = c12; by AIDHD01 CHILDID;run;
 data c1; merge c11 c12; by AIDHD01 CHILDID;run;
+proc datasets library = work nolist;
+	delete c11 c12;
+quit;
 
 /* Cylcle 2: 1996-97 */
 proc import 
@@ -165,7 +172,9 @@ ASDSD03 ASFHQ01 ASFHS6 ASFHS7 ASPHS01 ATMCQ25 ATMCQ26 ATMCQ27 ATMCQ33 AWTCW01 AW
 );
 run;
 proc contents data = c1c out = c1var;run;
-%ds2csv (data = c1var, runmode = b, csvfile = .\git-repos\nlscy-puf\c1vars.csv, labels = N);
+%ds2csv (data = c1var, runmode = b, 
+        csvfile = .\git-repos\nlscy-puf\c1vars.csv, 
+		labels = N);
 proc freq data = c1c (where = (aMMCQ01 < 10));
 	tables ADMCD06 ammpq02  aDMPD06D aDMCD04 ammsq02*aDMCD04
 			ADMCD06*ammpq02; * ammsq02 all miss;
