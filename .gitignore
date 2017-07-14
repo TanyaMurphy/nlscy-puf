@@ -14,3 +14,11 @@ vignettes/*.pdf
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
+
+c1vars\.csv
+
+c2vars\.csv
+
+vars\.csv
+
+vars\.txt
