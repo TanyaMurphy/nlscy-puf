@@ -179,6 +179,20 @@ proc freq data = c1c (where = (aMMCQ01 < 10));
 	tables ADMCD06 ammpq02  aDMPD06D aDMCD04 ammsq02*aDMCD04
 			ADMCD06*ammpq02; * ammsq02 all miss;
 run;
+proc freq data = c1c (where = (aMMCQ01 < 10));
+	tables ADMCD06 aDMPD06D aDMCD04;
+	format ADMCD06 aDMPD06D aDMCD04 6.;
+run;
+data c1d;set c1c;
+	if ADMCD06 in (11, 12, 13) then pmkparent = 1;
+	if 
+, 21, 22, 23) then pmkparent = 1;
+	else pmkparent = 0;
+run;
+proc freq data = c1d (where = (aMMCQ01 < 10));
+	tables parent*aDMCD04 ;
+run;
+
 
 
 /* Cycle 2: keep and standardize chosen vars */
@@ -258,6 +272,23 @@ run;
 proc freq data = c3c (where = (CMMCQ01 < 10));
 	tables cmmpq02 cmmsq02 CDMPD06D CDMCD04B cmmsq02*CDMCD04B;
 run;
+
+
+
+
+
+
+
+proc datasets library = work nolist;
+	delete c1b c2b c3b c1p c1pc2p c1var c2p c2var 
+           c3p callp callp2 temp1 temp2;
+quit;
+
+
+
+
+
+
 /* if need labels removed (but missing values are coded as missing, so prob. OK) 
 proc datasets lib=work memtype=data;
    modify t11;
