@@ -44,7 +44,7 @@ proc univariate data = c3;var CWTCW01C;run;
 /* go to checkvars.sas if need to update variable lists */
 
 /* save basic permanent  datasets for cleaning in next scripts */
-libname nlscy "&datapath";
+libname nlscy "./git-repos/nlscy-puf/data";
 
 /* Cycle 1: keep and standardize chosen vars */
 data c1b;set c1;
