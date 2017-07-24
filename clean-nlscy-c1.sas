@@ -20,11 +20,15 @@ proc sort data = nlscy.c1 ; by AMMCQ01;run;
                 pre-school activities recorded until age 5;
 proc freq data = nlscy.c1 ; by AMMCQ01;
 	tables  AEDCD01 AEDCD01*AGEHD03
-            AACCQ1 AACCQ2AA AACCQ2AA*AGEHD03 AEDCD01*AACCQ1; * AETCQ01 blank in pufs;
+            AACCQ1 AACCQ2AA AACCQ2AA*AGEHD03 AEDCD01*AACCQ1; 
+			* AETCQ01 blank in pufs;
 run;
 proc sort data = nlscy.c1 ; by AGEHD03;run;
 proc freq data = nlscy.c1 ; by AGEHD03;
 	tables  AHLCQ37*AMMCQ01; * AETCQ01 blank in pufs;
 run;
 
-
+proc sort data=nlscy.c1 ;by ACRCQ1A AEDCD01;
+proc freq data=nlscy.c1 (where = (AMMCQ01 <= 5));
+  by ACRCQ1A AEDCD01;tables ACRCD03;
+run;
