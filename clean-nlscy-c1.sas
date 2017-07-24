@@ -1,14 +1,13 @@
 /* Cylcle 1: 1994-95 */
 
-/** samsung;*/
-/*x 'cd C:\Users\tanya';*/
-/*%let datapath = ./HardDriveOnly/Data/nlscypuf;*/
+* samsung;
+x 'cd C:\Users\tanya';
+
 * surface;
-x 'cd C:\Users\Tanya';
-%let datapath = ./HardDriveOnly/Data/NLSCYpublic;
+*x 'cd C:\Users\Tanya';
 
 /* saved basic permanent  datasets here */
-libname nlscy "&datapath";
+libname nlscy "./git-repos/nlscy-puf/data";
 
 proc freq data = nlscy.c1 ;
 	tables ADMCD06 ammpq02  aDMPD06D aDMCD04 ammsq02*aDMCD04
@@ -16,11 +15,11 @@ proc freq data = nlscy.c1 ;
 run;
 
 proc sort data = nlscy.c1 ; by AMMCQ01;run;
-* (pre-)school: national school grade level asked starting at age 4
-                pre-school activities recorded until age 5;
+* (pre-)school: national school grade level asked starting at 
+               age 4, pre-school activities recorded until age 5;
 proc freq data = nlscy.c1 ; by AMMCQ01;
 	tables  AEDCD01 AEDCD01*AGEHD03
-            AACCQ1 AACCQ2AA AACCQ2AA*AGEHD03 AEDCD01*AACCQ1; 
+            AACCQ1 AACCQ2AA AGEHD03*AACCQ2AA AEDCD01*AACCQ2AA; 
 			* AETCQ01 blank in pufs;
 run;
 proc sort data = nlscy.c1 ; by AGEHD03;run;
