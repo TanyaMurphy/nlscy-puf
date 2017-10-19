@@ -10,8 +10,10 @@ proc import out = c11
 	file = "&datapath./nlscy-89M0015-E-1994-1995-c-1-r-2-primary-file_F1.dta" 
 	dbms = STATA replace;
 run;
+/*
 proc contents data = c11;run;
 proc univariate data = c11;var AWTCW01;run;
+*/
 data c11;set c11 ;rename AWTCW01 = AWTCW01C;run;
 proc sort data = c11; by AIDHD01 CHILDID;run;
 proc import 
@@ -19,7 +21,9 @@ proc import
 	dbms = STATA replace
 	out = c12;
 run;
+/*
 proc univariate data = c12;var AWTCW01;run;
+*/
 proc sort data = c12; by AIDHD01 CHILDID;run;
 data c1; merge c11 c12; by AIDHD01 CHILDID;run;
 proc datasets library = work nolist;
@@ -32,20 +36,24 @@ proc import
 	dbms = STATA replace
 	out = c2 ;
 run;
+/*
 proc univariate data = c2;var BWTCW01C;run;
+*/
 /* Cylcle 3: 1998-99 */
 proc import 
 	datafile = "&datapath./nlscy-89M0015-E-1998-1999-c-3-primary-file_F1.dta" 
 	dbms = STATA replace
 	out = c3;
 run;
+/*
 proc univariate data = c3;var CWTCW01C;run;
-
+*/
 /* go to checkvars.sas if need to update variable lists */
 
 /* save basic permanent  datasets for cleaning in next scripts */
+/*
 libname nlscy "./git-repos/nlscy-puf/data";
-
+*/
 /* Cycle 1: keep and standardize chosen vars */
 data c1b;set c1;
 	CID = CHILDID;
@@ -53,7 +61,10 @@ data c1b;set c1;
 	format cid z6. hid z7.; 
 run;
 proc sort data = c1b;by hid cid;run;
+/*
+proc means data=c1b missing;run;
 proc univariate data = c1b;var cid hid AWTCW01;run;
+*/
 data c1c;
 	retain HID CID;
 	set c1b (keep = HID CID 
@@ -86,6 +97,7 @@ proc contents data = c1c out = c1var;run;
         csvfile = .\git-repos\nlscy-puf\c1vars.csv, 
 		labels = N);
 */
+/*
 proc freq data = c1c (where = (aMMCQ01 < 10));
 	tables ADMCD06 ammpq02  aDMPD06D aDMCD04 ammsq02*aDMCD04
 			ADMCD06*ammpq02; * ammsq02 all miss;
@@ -103,7 +115,7 @@ quit;
 proc contents data = c1c;run;
 data nlscy.c1;set c1c (where = (aMMCQ01 < 10));run;
 
-
+*/
 
 
 /* Cycle 2: keep and standardize chosen vars */
@@ -113,7 +125,9 @@ data c2b;set c2;
 	format cid z6. hid z7.; 
 run;
 proc sort data = c2b;by hid cid;run;
+/*
 proc univariate data = c2b;var cid hid;run;
+*/
 data c2b;set c2b;
 	CID = CID + 200000;
 	HID = 10*HID + 2000000;
@@ -146,10 +160,11 @@ run;
 proc contents data = c2c out = c2var  nodetails;run;
 %ds2csv (data = c2var, runmode = b, csvfile = .\git-repos\nlscy-puf\c2vars.csv, labels = N);
 */
+/*
 proc freq data = c2c (where = (bMMCQ01 < 10));
 	tables  bmmpq02 bmmsq02 bDMPD06D bDMCD04 bmmpq02*bDMCD04; * bDMCD06 all miss;
 run;
-
+*/
 
 /* Cycle 3: keep and standardize chosen vars */
 data c3b;set c3;
@@ -158,7 +173,9 @@ data c3b;set c3;
 	format cid z6. hid z7.; 
 run;
 proc sort data = c3b;by hid cid;run;
+/*
 proc univariate data = c3b;var cid hid cWTCW01c;run;
+*/
 data c3b;set c3b;
 	CID = CID + 300000;
 	HID = 10*HID + 3000000;
@@ -187,10 +204,11 @@ run;
 proc contents data = c3c out = c3var  nodetails;run;
 %ds2csv (data = c3var, runmode = b, csvfile = .\git-repos\nlscy-puf\c3vars.csv, labels = N);
 */
+/*
 proc freq data = c3c (where = (CMMCQ01 < 10));
 	tables cmmpq02 cmmsq02 CDMPD06D CDMCD04B cmmsq02*CDMCD04B;
 run;
-
+*/
 
 
 

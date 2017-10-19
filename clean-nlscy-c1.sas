@@ -19,7 +19,7 @@ run;
    If the PMK is the child's mother or father, is the PMK's spouse the 
     child's father or mother?
 */   
-data c1a;set nlscy.c1;
+data c1d;set c1c;
 	if admcd03 in (11, 21, 22, 31, 41, 43, 44, 51, 71) & admcd06c = 3
        then liveswithmom = 1; 
     if admcd03 in (42, 45, 46, 47, 61, 72) | admcd06c ne 3
